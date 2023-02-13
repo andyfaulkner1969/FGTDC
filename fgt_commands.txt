@@ -1,0 +1,29 @@
+# This is the command file, list commands surrounded in single quotes.
+# You can can add and removed commands as needed.
+# Any line that begins with a # will be ignored.  
+
+get system status
+get system performance status
+diagnose sys vd list | grep fib
+diag sys session full-stat
+diag sys session exp-stat
+diag sys cmdb info
+get sys ha status
+diag firewall packet distribution
+get sys performance firewall statistics
+diag netlink device list
+fnsysctl cat /proc/net/snmp
+diag npu np6xlite dce 0
+diag vpn ike status detailed
+get router info bgp summary
+diag sys sdwan service
+diag sys sdwan health-check
+diag firewall proute list
+fnsysctl cat /proc/softirqs
+diag hardware sysinfo interrupts
+diag hardware deviceinfo nic port1
+diag hardware deviceinfo nic port2
+diag hardware deviceinfo nic port4
+diag hardware deviceinfo nic x1
+diag hardware deviceinfo nic x2
+diag sys top 1 20 1
