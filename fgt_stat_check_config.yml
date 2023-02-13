@@ -1,13 +1,13 @@
 # This is the config file for the fgt stat checker script.
 fgtconfig:
-    fgt_ip: "10.10.90.1"
+    fgt_ip: "x.x.x.x"
     fgt_admin: "admin"
-    fgt_password: "Danni1993!"
+    fgt_password: "password"
     fgt_port: "22"
 
 script_file_cfg:
     log_file: "fgt_stat_file.txt"
-    command_file_path: "/Users/andyfaulkner/Documents/Python/python-ssh/fg_stat_check/"
+    command_file_path: "/Users/bobsmith/fgt_status_check"
     command_file: "fgt_commands.txt"
-    log_path: "/Users/andyfaulkner/Documents/Python/python-ssh/fg_stat_check/logs/"
+    log_path: "/Users/bobsmith/fgt_status_check/logs"
     file_limit: "100000"
