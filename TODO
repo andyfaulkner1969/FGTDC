@@ -1,0 +1,3 @@
+Want to add a check/create for the "logs" directory
+Make compatiable with Windows (doing an OS check)
+Better fault management
