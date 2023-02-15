@@ -21,3 +21,9 @@ When the script runs it will do the following...
 ***** BE VERY cautious of what commands you put in the file ***** Because it will blindly execute them.
 
 I highly suggest you only use "get" and "diag" commands.
+
+I used the following cron to run...
+
+This will run every minute, you can of course change that interval.
+
+* * * * * cd /home/username/FortiGate-stats-collector-main && /home/username/FortiGate-stats-collector-main/fgt_stat_check_v1.0.py
