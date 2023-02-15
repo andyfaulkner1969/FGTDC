@@ -11,3 +11,4 @@ script_file_cfg:
     command_file: "fgt_commands.txt"
     log_path: "/Users/bobsmith/fgt_status_check/logs/"
     file_limit: "100000"
+    dir_limit: "100000000"
