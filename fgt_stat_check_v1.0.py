@@ -40,6 +40,18 @@ def check_file():
 		fout = open(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file'],'wb')
 		fout.close()
 
+# in progress directory limit check
+def dir_size_limit():
+	for root, dirs, files in os.walk("/Users/andyfaulkner/Downloads/"):
+		dir_size = 0
+		for fn in files:
+			path = os.path.join(root, fn)
+			size = os.stat(path).st_size # in bytes
+			#print(size)
+			dir_size = dir_size + size
+			
+	print(dir_size)
+
 # Checking to see if log file has got too large, if yes move it with date stamp.
 		# File limit set in yaml file.
 def log_file_rotation():
