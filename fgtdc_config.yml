@@ -17,5 +17,5 @@ script_file_cfg:
 debug_config:
     debug_flag: "DEBUG"
     debug_file: "fgtdc_debug.log"
-    debug_path: "/Users/andyfaulkner/Documents/Python/python-ssh/FGTDC/logs/"
+    debug_path: "/<changeme>/FGTDC-main/logs/"
     debug_log_flag: "Y" # Y for logging to file N to turn off.
