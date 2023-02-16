@@ -15,7 +15,7 @@ script_file_cfg:
     dir_limit: "100000000"
 
 debug_config:
-    debug_flag: "DEBUG"
+    debug_flag: "NOTSET" # Choices - DEBUG, INFO and NOTSET
     debug_file: "fgtdc_debug.log"
     debug_path: "/<changeme>/FGTDC-main/logs/"
     debug_log_flag: "Y" # Y for logging to file N to turn off.
