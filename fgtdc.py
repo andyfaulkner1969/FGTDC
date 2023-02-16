@@ -7,6 +7,7 @@ import os
 import shutil
 from datetime import datetime
 import yaml
+import logging
 
 # Fortigate information collection tool.
 #  This script will run the commands you list in fgtdc_commands.txt (should be in the same directory)
@@ -22,6 +23,8 @@ import yaml
 afaulkner@fortinet.com 
 """
 
+
+
 now = datetime.now()
 current_time = now.strftime("Date-%m-%d-%Y---Time-%H%M%S")
 
@@ -33,8 +36,26 @@ with open('fgtdc_config.yml', 'r') as file:
 # Opening command list file
 cmd_file = open('fgtdc_commands.txt', 'r')
 
+# Setting up debug 
+if config['debug_config']['debug_flag'] == "DEBUG":
+	debug_flag = logging.DEBUG
+if config['debug_config']['debug_flag'] == "INFO":
+	debug_flag = logging.INFO
+
+logging_file = config['debug_config']['debug_file']
+logging_path = config['debug_config']['debug_path']
+logging_flag = config['debug_config']['debug_log_flag']
+
+if logging_flag == "N":
+	logging.basicConfig(level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
+if logging_flag == "Y":
+	logging.basicConfig(filename=logging_path + logging_file,level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
+
+logging.debug("***** Start of FGTDC Script. *****")
+
 # Checking to see if log directory is there.
 def check_log_dir():
+	logging.debug("Start of check_log_dir function.")
 	if os.path.isdir(config['script_file_cfg']['log_path']):
 		pass
 	else:
@@ -43,6 +64,7 @@ def check_log_dir():
 
 # Checking to see if log file exsist, if not creating.
 def check_file():
+	logging.debug("Start of check_file function.")
 	if os.path.isfile(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file']):
 		pass
 	else:
@@ -53,6 +75,7 @@ def check_file():
 # Checking directory size, this is a safe guard to prevent the script from filling
 # the file system.
 def dir_size_limit():
+	logging.debug("Start of dir_size_limit function")
 	for root, dirs, files in os.walk(config['script_file_cfg']['log_path']):
 		dir_size = 0
 		for fn in files:
@@ -69,6 +92,7 @@ def dir_size_limit():
 # Checking to see if log file has got too large, if yes move it with date stamp.
 		# File limit set in yaml file.
 def log_file_rotation():
+	logging.debug("Start of log_file_rotation function")
 	file_size = os.path.getsize(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file'])
 	
 	print("Log file Size is :", file_size, "bytes")
@@ -82,6 +106,7 @@ def log_file_rotation():
 
 # Turning off MORE for the console otherwise script hangs.
 def console_set():
+	logging.debug("Start of console_set function")
 	host = config['fgtconfig']['fgt_ip']
 	port = config['fgtconfig']['fgt_port']
 	username = config['fgtconfig']['fgt_admin']
@@ -97,6 +122,7 @@ def console_set():
 
 # Running commands against FGT taken from commands file.
 def run_command():
+	logging.debug("Start of run_command function")
 	# Opening log file
 	fout = open(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file'],'a')
 	host = config['fgtconfig']['fgt_ip']
@@ -138,3 +164,4 @@ check_file()
 log_file_rotation()
 console_set()
 run_command()
+logging.debug("***** END of FGTDC Script. *****")
