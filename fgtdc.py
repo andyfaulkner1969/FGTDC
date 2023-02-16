@@ -27,38 +27,35 @@ now = datetime.now()
 current_time = now.strftime("Date-%m-%d-%Y---Time-%H%M%S")
 
 # Opening config file
-
 with open('fgtdc_config.yml', 'r') as file:
 	config = yaml.safe_load(file)
 
 # Opening command list file
 cmd_file = open('fgtdc_commands.txt', 'r')
 
-# Setting up debug 
-if config['debug_config']['debug_flag'] == "DEBUG":
-	debug_flag = logging.DEBUG
-if config['debug_config']['debug_flag'] == "INFO":
-	debug_flag = logging.INFO
+# Checking for logs directory
+if os.path.isdir(config['script_file_cfg']['log_path']):
+	pass
+else:
+	print("Missing logs directory...creating it now.")
+	os.makedirs(config['script_file_cfg']['log_path'])
 
-logging_file = config['debug_config']['debug_file']
-logging_path = config['debug_config']['debug_path']
-logging_flag = config['debug_config']['debug_log_flag']
+# Setting up debug
+def debug_setup():
+	if config['debug_config']['debug_flag'] == "DEBUG":
+		debug_flag = logging.DEBUG
+	if config['debug_config']['debug_flag'] == "INFO":
+		debug_flag = logging.INFO
 
-if logging_flag == "N":
-	logging.basicConfig(level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
-if logging_flag == "Y":
-	logging.basicConfig(filename=logging_path + logging_file,level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
+	logging_file = config['debug_config']['debug_file']
+	logging_path = config['debug_config']['debug_path']
+	logging_flag = config['debug_config']['debug_log_flag']
 
-logging.debug("***** Start of FGTDC Script. *****")
-
-# Checking to see if log directory is there.
-def check_log_dir():
-	logging.debug("Start of check_log_dir function.")
-	if os.path.isdir(config['script_file_cfg']['log_path']):
-		pass
-	else:
-		print("Missing logs directory...creating it now.")
-		os.makedirs(config['script_file_cfg']['log_path'])
+	if logging_flag == "N":
+		logging.basicConfig(level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
+	if logging_flag == "Y":
+		logging.basicConfig(filename=logging_path + logging_file,level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
+	logging.debug("***** Start of FGTDC Script. *****")
 
 # Checking to see if log file exsist, if not creating.
 def check_file():
@@ -156,7 +153,7 @@ def run_command():
 	cmd_file.close()
 	ssh.close()
 
-check_log_dir()
+debug_setup()
 dir_size_limit()
 check_file()
 log_file_rotation()
