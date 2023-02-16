@@ -153,11 +153,8 @@ def run_command():
 	cmd_file.close()
 	ssh.close()
 
-
-#check_log_dir()
 debug_setup()
 dir_size_limit()
-
 check_file()
 log_file_rotation()
 console_set()
