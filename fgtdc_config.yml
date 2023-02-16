@@ -8,8 +8,8 @@ fgtconfig:
 
 script_file_cfg:
     log_file: "fgt_stat_file.txt"
-    command_file_path: "/Users/bobsmith/fgt_status_check"
-    command_file: "fgt_commands.log"
-    log_path: "/Users/bobsmith/fgt_status_check/logs/"
+    command_file_path: "/Users/bobsmith/fgtdc"
+    command_file: "fgtdc_commands.log"
+    log_path: "/Users/bobsmith/fgtdc/logs/"
     file_limit: "100000"
     dir_limit: "100000000"
