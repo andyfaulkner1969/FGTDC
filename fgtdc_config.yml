@@ -13,3 +13,9 @@ script_file_cfg:
     log_path: "/<changeme>/FGTDC-main/logs/"
     file_limit: "100000"
     dir_limit: "100000000"
+
+debug_config:
+    debug_flag: "DEBUG"
+    debug_file: "fgtdc_debug.log"
+    debug_path: "/Users/andyfaulkner/Documents/Python/python-ssh/FGTDC/logs/"
+    debug_log_flag: "Y" # Y for logging to file N to turn off.

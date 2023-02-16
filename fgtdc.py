@@ -23,8 +23,6 @@ import logging
 afaulkner@fortinet.com 
 """
 
-
-
 now = datetime.now()
 current_time = now.strftime("Date-%m-%d-%Y---Time-%H%M%S")
 
