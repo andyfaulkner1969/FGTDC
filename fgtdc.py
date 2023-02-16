@@ -9,9 +9,9 @@ from datetime import datetime
 import yaml
 
 # Fortigate information collection tool.
-#  This script will run the commands you list in fgt_commands.txt (should be in the same directory)
+#  This script will run the commands you list in fgtdc_commands.txt (should be in the same directory)
 #  This list can ge changed as needed.
-#  Configuration is done in the fgt_stat_check_config.yml file for your specfic Fortigate.
+#  Configuration is done in the fgtdc_config.yml file for your specfic Fortigate.
 #  It will log into the FGT via SSH and run each command logging to file.
 #  If logs directory is missing it will be created
 """"
@@ -27,11 +27,11 @@ current_time = now.strftime("Date-%m-%d-%Y---Time-%H%M%S")
 
 # Opening config file
 
-with open('fgt_stat_check_config.yml', 'r') as file:
+with open('fgtdc_config.yml', 'r') as file:
 	config = yaml.safe_load(file)
 
 # Opening command list file
-cmd_file = open('fgt_commands.txt', 'r')
+cmd_file = open('fgtdc_commands.txt', 'r')
 
 # Checking to see if log directory is there.
 def check_log_dir():
