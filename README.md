@@ -10,7 +10,7 @@ fgtdc_commands.txt - list of commands you wish to run (extensive list is already
 
 When the script runs it will do the following...
 
-1. Checl to see if log directory exsists. If not creates it.
+1. Check to see if log directory exsists. If not creates it.
 2. Check to see if log file is present. If not create it.
 3. Check to see if log directory is larger than size defined in yaml if so will exit.  If not moves forward.  
     *This is a safe guard to prevent the script from over runnning the file system.
