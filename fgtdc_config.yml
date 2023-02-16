@@ -1,5 +1,5 @@
 # This is the config file for the fgt stat checker script.
-# updated 15 feb 23
+# 
 fgtconfig:
     fgt_ip: "x.x.x.x"
     fgt_admin: "admin"
@@ -7,7 +7,7 @@ fgtconfig:
     fgt_port: "22"
 
 script_file_cfg:
-    log_file: "fgt_stat_file.txt"
+    log_file: "fgtdc_diag.log"
     command_file_path: "/<changeme>/FGTDC-main"
     command_file: "fgtdc_commands.log"
     log_path: "/<changeme>/FGTDC-main/logs/"
