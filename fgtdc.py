@@ -46,6 +46,8 @@ def debug_setup():
 		debug_flag = logging.DEBUG
 	if config['debug_config']['debug_flag'] == "INFO":
 		debug_flag = logging.INFO
+	if config['debug_config']['debug_flag'] == "NOTSET":
+		debug_flag = logging.NOTSET
 
 	logging_file = config['debug_config']['debug_file']
 	logging_path = config['debug_config']['debug_path']
