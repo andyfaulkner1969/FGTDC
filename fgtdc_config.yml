@@ -1,9 +1,9 @@
 # This is the config file for the fgt stat checker script.
 # 
 fgtconfig:
-    fgt_ip: "10.10.90.1"
+    fgt_ip: "x.x.x.x"
     fgt_admin: "admin"
-    fgt_password: "Danni1993!"
+    fgt_password: "<passowrd>"
     fgt_port: "22"
 
 script_file_cfg:
