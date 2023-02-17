@@ -96,7 +96,7 @@ def log_file_rotation():
 	logging.info("Log file Size is :" + str(file_size) + "bytes")
 	if file_size > int(config['script_file_cfg']['file_limit']): 
 		logging.info("File size exceeds limit....moving..")
-		shutil.move(log_file, str(log_file) + current_time + "_log.txt")
+		shutil.move(log_file, current_time + ".log")
 	else:
 		pass
 

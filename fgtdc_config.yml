@@ -10,7 +10,7 @@ script_file_cfg:
     log_file: "fgtdc_diag.log"
     command_file: "fgtdc_commands.log"
     log_path: "logs"
-    file_limit: "1000000"
+    file_limit: "100000"
     dir_limit: "100000000"
 
 debug_config:
