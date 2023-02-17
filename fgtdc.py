@@ -2,12 +2,12 @@
 
 import paramiko
 import time
-import time
 import os
 import shutil
 from datetime import datetime
 import yaml
 import logging
+from pathlib import Path
 
 # Fortigate information collection tool.
 #  This script will run the commands you list in fgtdc_commands.txt (should be in the same directory)
@@ -33,77 +33,78 @@ with open('fgtdc_config.yml', 'r') as file:
 # Opening command list file
 cmd_file = open('fgtdc_commands.txt', 'r')
 
-# Checking for logs directory
-if os.path.isdir(config['script_file_cfg']['log_path']):
-	pass
+# Setting up file usage (added for windows support)
+log_dir = Path(config['script_file_cfg']['log_path'])
+log_file = Path(log_dir,config['script_file_cfg']['log_file'])
+debug_path = Path(config['debug_config']['debug_path'])
+debug_file = Path(debug_path,config['debug_config']['debug_file'] )
+
+# Looking for log directory if not there create
+if os.path.isdir(log_dir):
+    pass
 else:
-	print("Missing logs directory...creating it now.")
-	os.makedirs(config['script_file_cfg']['log_path'])
+	logging.info("Missing logs directory...creating it now.")
+	os.makedirs(log_dir)
 
 # Setting up debug
 def debug_setup():
+	logging_flag = config['debug_config']['debug_log_flag']
 	if config['debug_config']['debug_flag'] == "DEBUG":
 		debug_flag = logging.DEBUG
 	if config['debug_config']['debug_flag'] == "INFO":
 		debug_flag = logging.INFO
 	if config['debug_config']['debug_flag'] == "NOTSET":
 		debug_flag = logging.NOTSET
-
-	logging_file = config['debug_config']['debug_file']
-	logging_path = config['debug_config']['debug_path']
-	logging_flag = config['debug_config']['debug_log_flag']
-
 	if logging_flag == "N":
 		logging.basicConfig(level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
 	if logging_flag == "Y":
-		logging.basicConfig(filename=logging_path + logging_file,level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
-	logging.debug("***** Start of FGTDC Script. *****")
+		logging.basicConfig(filename=debug_file,level=debug_flag,format='%(asctime)s:%(levelname)s:%(message)s')
+	logging.info("***** Start of FGTDC Script. *****")
 
 # Checking to see if log file exsist, if not creating.
 def check_file():
-	logging.debug("Start of check_file function.")
-	if os.path.isfile(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file']):
+	logging.info("Start of check_file function.")
+	if os.path.isfile(log_file):
 		pass
 	else:
-		fout = open(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file'],'wb')
-		print("1st time run creating log file.")
+		fout = open(log_file,'wb')
+		logging.info("1st time run creating log file.")
 		fout.close()
 
 # Checking directory size, this is a safe guard to prevent the script from filling
 # the file system.
 def dir_size_limit():
-	logging.debug("Start of dir_size_limit function")
-	for root, dirs, files in os.walk(config['script_file_cfg']['log_path']):
+	logging.info("Start of dir_size_limit function")
+	for root, dirs, files in os.walk(log_dir):
 		dir_size = 0
 		for fn in files:
 			path = os.path.join(root, fn)
 			size = os.stat(path).st_size # in bytes
-			#print(size)
+			logging.debug("directory size = " + str(size))
 			dir_size = dir_size + size
 	if dir_size > int(config['script_file_cfg']['dir_limit']):
-		print("Directory Limit Reached!  Clean out directory and start again.")
+		logging.info("Directory Limit Reached!  Clean out directory and start again.")
 		exit()
 	else:
-		print("Directory size good... moving to next step")
+		logging.info("Directory size good... moving to next step")
 			
 # Checking to see if log file has got too large, if yes move it with date stamp.
 		# File limit set in yaml file.
 def log_file_rotation():
-	logging.debug("Start of log_file_rotation function")
-	file_size = os.path.getsize(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file'])
-	
-	print("Log file Size is :", file_size, "bytes")
+	logging.info("Start of log_file_rotation function")
+	file_size = os.path.getsize(log_file)
+	logging.info("Log file Size is :" + str(file_size) + "bytes")
 	if file_size > int(config['script_file_cfg']['file_limit']): 
-		print("File size exceeds limit....moving..")
-		new_log = open(config['script_file_cfg']['log_path'] + current_time + "_log.txt",'wb')
-		new_log.close()
-		shutil.move(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file'], config['script_file_cfg']['log_path'] + current_time + "_log.txt")
+		logging.info("File size exceeds limit....moving..")
+		# new_log = open(log_dir + current_time + "_log.txt",'wb')
+		# new_log.close()
+		shutil.move(log_file, current_time + "_log.txt")
 	else:
 		pass
 
 # Turning off MORE for the console otherwise script hangs.
 def console_set():
-	logging.debug("Start of console_set function")
+	logging.info("Start of console_set function")
 	host = config['fgtconfig']['fgt_ip']
 	port = config['fgtconfig']['fgt_port']
 	username = config['fgtconfig']['fgt_admin']
@@ -114,14 +115,14 @@ def console_set():
 	cmd = "config system console" "\n" "set output standard" "\n" "end" "\n"
 	stdin, stdout, stderr = ssh.exec_command(cmd)
 	output = stdout.read().decode('utf-8').strip("\n")
-#	print(output)
+	logging.debug(output)
 	ssh.close()
 
 # Running commands against FGT taken from commands file.
 def run_command():
-	logging.debug("Start of run_command function")
+	logging.info("Start of run_command function")
 	# Opening log file
-	fout = open(config['script_file_cfg']['log_path'] + config['script_file_cfg']['log_file'],'a')
+	fout = open(log_file,'a')
 	host = config['fgtconfig']['fgt_ip']
 	port = config['fgtconfig']['fgt_port']
 	username = config['fgtconfig']['fgt_admin']
@@ -143,7 +144,7 @@ def run_command():
 			fout.write("Running: " + cmd)
 			fout.write('\n\r')
 			output = stdout.read().decode('utf-8').strip("\n")
-			#print(output)
+			logging.debug(output)
 			time.sleep(.5)
 			fout.write('\n\r')
 			fout.write(output)
@@ -161,4 +162,4 @@ check_file()
 log_file_rotation()
 console_set()
 run_command()
-logging.debug("***** END of FGTDC Script. *****")
+logging.info("***** END of FGTDC Script. *****")
