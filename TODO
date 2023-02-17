@@ -1,4 +1,4 @@
 
 Make compatiable with Windows (doing an OS check)
 Better fault management for ssh connections
-add debug to log file when enabled.
+
