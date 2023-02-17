@@ -8,14 +8,13 @@ fgtconfig:
 
 script_file_cfg:
     log_file: "fgtdc_diag.log"
-    command_file_path: "/<changeme>/FGTDC-main"
     command_file: "fgtdc_commands.log"
-    log_path: "/<changeme>/FGTDC-main/logs/"
+    log_path: "logs"
     file_limit: "100000"
     dir_limit: "100000000"
 
 debug_config:
-    debug_flag: "NOTSET" # Choices - DEBUG, INFO and NOTSET
+    debug_flag: "INFO" # Choices - DEBUG, INFO and NOTSET
     debug_file: "fgtdc_debug.log"
-    debug_path: "/Users/andyfaulkner/Documents/Python/python-ssh/FGTDC/logs/"
-    debug_log_flag: "Y" # Y for logging to file N to turn off.
+    debug_path: "logs"
+    debug_log_flag: "N" # Y for logging to file N to turn off.
