@@ -1,20 +1,20 @@
 # This is the config file for the fgt stat checker script.
 # 
 fgtconfig:
-    fgt_ip: "x.x.x.x"
+    fgt_ip: "10.10.90.1"
     fgt_admin: "admin"
-    fgt_password: "<passowrd>"
+    fgt_password: "Danni1993!"
     fgt_port: "22"
 
 script_file_cfg:
     log_file: "fgtdc_diag.log"
     command_file: "fgtdc_commands.log"
     log_path: "logs"
-    file_limit: "100000"
+    file_limit: "1000"
     dir_limit: "100000000"
 
 debug_config:
     debug_flag: "INFO" # Choices - DEBUG, INFO and NOTSET
     debug_file: "fgtdc_debug.log"
     debug_path: "logs"
-    debug_log_flag: "N" # Y for logging to file N to turn off.
+    debug_log_flag: "Y" # Y for logging to file N to turn off.

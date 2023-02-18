@@ -8,6 +8,7 @@ from datetime import datetime
 import yaml
 import logging
 from pathlib import Path
+import pathlib
 
 # Fortigate information collection tool.
 #  This script will run the commands you list in fgtdc_commands.txt (should be in the same directory)
@@ -24,7 +25,7 @@ afaulkner@fortinet.com
 """
 
 now = datetime.now()
-current_time = now.strftime("Date-%m-%d-%Y---Time-%H%M%S")
+current_time = now.strftime("Date-%m-%d-%Y-Time-%H%M%S")
 
 # Opening config file
 with open('fgtdc_config.yml', 'r') as file:
@@ -96,7 +97,14 @@ def log_file_rotation():
 	logging.info("Log file Size is :" + str(file_size) + "bytes")
 	if file_size > int(config['script_file_cfg']['file_limit']): 
 		logging.info("File size exceeds limit....moving..")
-		shutil.move(log_file, current_time + ".log")
+		old_path =os.getcwd()
+		os.chdir(log_dir)
+		new_name = current_time + ".log" 
+		os.rename(config['script_file_cfg']['log_file'],new_name)
+		fout = open(config['script_file_cfg']['log_file'],'wb')
+		logging.info("Creating new primary log file.")
+		fout.close()
+		os.chdir(old_path)
 	else:
 		pass
 
