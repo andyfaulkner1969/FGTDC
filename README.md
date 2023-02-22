@@ -5,6 +5,10 @@ Wrote for python 3.0. Tested on MAC,Ubuntu,Windows11.
 
 Python libs to install paramiko and PyYAML
 
+Requirements file is included to use.
+
+pip3 install -r requirements.txt
+
 There are three files needed.
 
 fgtdc.py - Primary python script.  
